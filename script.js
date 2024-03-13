@@ -2,95 +2,157 @@ const addBtn = document.querySelector("#Add-Button");
 const TaskInput = document.querySelector("#AddTasks input");
 const taskContainer = document.querySelector("#Tasks");
 const error = document.getElementById("error");
-const CountValue = document.getElementById("TaskCount");
+const uncompletedCounter = document.getElementById("uncompleted-counter");
+const completedCounter = document.getElementById("completed-counter");
 
-let TotalCount = 0;
+const saveLocal = () => {
+  localStorage.setItem("data", taskContainer.innerHTML);
+};
 
-const display = (TotalCount) => {
-  CountValue.innerHTML = TotalCount;
+const fetchLocal = () => {
+  taskContainer.innerHTML = localStorage.getItem("data");
+};
+
+let completeTotalCount = 0;
+let incompleteTotalCount = 0;
+
+const display = () => {
+  const completedTasks = document.querySelectorAll(".completed").length;
+  const uncompletedTasks =
+    document.querySelectorAll("li:not(.completed)").length;
+
+  completedCounter.textContent = completedTasks;
+  uncompletedCounter.textContent = uncompletedTasks;
 };
 
 const addtask = () => {
   const taskName = TaskInput.value.trim();
   error.style.display = "none";
-
   if (!taskName) {
+    error.style.display = "block";
     setTimeout(() => {
-      error.style.display = "block";
+      error.style.display = "none";
     }, 2000);
+  } else {
+    const li = document.createElement("li");
+    li.innerHTML = `
+    <div class='task'>
+    <label >
+        <button class="Checkbox"><i class="fa-solid fa-check"></i></button>
+        <span>${taskName}</span>
+    </label>
+    <div>
+    <span class = "edit-btn">
+    <i class="fa-solid fa-pen-to-square"></i>
+    </span>
+    <span class="delete-btn">
+    <i class="fa-solid fa-trash"></i>
+    </span>
+    </div>
+    </div>`;
+    taskContainer.insertAdjacentElement("beforeend", li);
+    console.log(li);
+    TaskInput.value = "";
+    incompleteTotalCount++;
+    display(incompleteTotalCount, completeTotalCount);
+
+    const deleteBtn = li.querySelector(".delete-btn");
+    const editBtn = li.querySelector(".edit-btn");
+    const taskSpan = li.querySelector("span");
+    const Checkbox = li.querySelector(".Checkbox");
+
+    deleteBtn.addEventListener("click", () => {
+      if (confirm("Are you sure you want to delete this task?")) {
+        li.remove();
+      }
+    });
+
+    editBtn.addEventListener("click", () => {
+      const update = prompt("Edit task:", taskSpan.textContent);
+      if (update !== null) {
+        taskSpan.textContent = update;
+        li.classList.remove("completed");
+      }
+    });
+
+    // Checkbox.addEventListener("click", function () {
+    //   li.classList.toggle("completed", Checkbox.checked);
+    // });
+    saveLocal();
+    // console.log(taskContainer);
   }
-
-  const task = `<div class="task">
-  <div>
-    <button id="Checkbox"><i class="fa-solid fa-check"></i></button>
-    <span id="TaskText">${taskName}</span>
-  </div>
-  <div>
-    <button class = "edit-button">
-        <i class="fa-solid fa-pen-to-square"></i>
-    </button>
-    <button class="Delete-Button">
-        <i class="fa-solid fa-trash"></i>
-    </button>
-  </div>
-</div>`;
-
-  taskContainer.insertAdjacentHTML("beforeend", task);
-
-  TotalCount++;
-  display(TotalCount);
-
-  TaskInput.value = "";
-  saveLocal();
 };
-
-const saveLocal = () => {
-  localStorage.setItem("data", Tasks.innerHTML);
-};
-
-const fetchLocal = () => {
-  Tasks.innerHTML = localStorage.getItem("data");
-};
-
 fetchLocal();
 
 addBtn.addEventListener("click", addtask);
 
-const DeleteBtn = document.querySelectorAll(".Delete-Button");
+taskContainer.addEventListener("click", (e) => {
+  console.log(e.target);
+  if (e.target.getElementByClassName == "fa-check") {
+    // const li =
+    // li.classList.toggle("completed", Checkbox.checked);
+    console.log(e);
+  }
+  else if(e.target){
 
-//
-// DeleteBtn.addEventListener('click',()=>{
-//     console.log("yash")
-// })
-
-DeleteBtn.forEach((button) => {
-  button.addEventListener("click", () => {
-    button.parentNode.parentNode.remove();
-    TotalCount--;
-    display(TotalCount);
-    saveLocal();
-  });
+  }
 });
 
-const Editbtn = document.querySelectorAll(".edit-button");
+// const DeleteBtn = document.querySelectorAll(".Delete-Button");
 
-console.log(Editbtn);
+// DeleteBtn.forEach((button) => {
+//   button.addEventListener("click", () => {
+//     button.parentNode.parentNode.remove();
+//     incompleteTotalCount--;
+//     display(incompleteTotalCount);
+//     saveLocal();
+//   });
+// });
 
-Editbtn.forEach((button) => {
-  console.log(button);
-  //   console.log(button.parentElement.previousElementSibling.textContent);
-  button.addEventListener("click", (e) => {
-    let targetElement = e.target;
-    // console.log(
-    //   targetElement.parentElement.parentElement.previousElementSibling.textContent.trim()
-    // );
-    TaskInput.value =
-      targetElement.parentElement.parentElement.previousElementSibling?.textContent.trim();
+// const Editbtn = document.querySelectorAll(".edit-button");
 
-    targetElement.parentNode.parentNode.parentNode.remove();
+// console.log(Editbtn);
 
-    TotalCount--;
-    display(TotalCount);
-    saveLocal();
-  });
-});
+// Editbtn.forEach((button) => {
+//   //   console.log(button);
+
+//   button.addEventListener("click", (e) => {
+//     let targetElement = e.target;
+
+//     TaskInput.value =
+//       targetElement.parentElement.parentElement.previousElementSibling?.textContent.trim();
+
+//     targetElement.parentNode.parentNode.parentNode.remove();
+
+//     incompleteTotalCount--;
+//     display(incompleteTotalCount);
+//     // saveLocal();
+//   });
+// });
+
+// const saveBtn = document.querySelectorAll(".Checkbox");
+
+// console.log(saveBtn);
+
+// saveBtn.forEach((checkbox) => {
+//   //   console.log(checkbox.parentNode);
+//   checkbox.onclick = () => {
+//     checkbox.parentNode.style.textDecoration = "line-through";
+//     if (checkbox.checked) {
+//       completeTotalCount++;
+//     } else {
+//       completeTotalCount--;
+//     }
+//     display(completeTotalCount);
+//     // saveLocal();
+//   };
+// });
+
+// const deleteQuery = document.getElementsByClassName(".Delete-Button");
+
+// deleteBtn.addEventListener("click", function () {
+//     if (confirm("Are you sure you want to delete this task?")) {
+//       .remove();
+//       updateCounters();
+//     }
+//   });

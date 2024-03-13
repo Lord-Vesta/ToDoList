@@ -107,7 +107,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
-#Checkbox {
+.Checkbox {
   margin-right: 0.5rem;
   background-color: transparent;
   color: #9e78cf;
@@ -115,14 +115,20 @@ body {
   cursor: pointer;
 }
 
-#Delete-Button {
+.Checkbox.checked {
+  background: #888;
+  color: #fff;
+  text-decoration: line-through;
+}
+
+.delete-btn {
   background-color: transparent;
   color: #9e78cf;
   border: none;
   cursor: pointer;
 }
 
-.edit-button {
+.edit-btn {
   background-color: transparent;
   color: #9e78cf;
   border: none;
@@ -139,4 +145,9 @@ body {
   border-radius: 0.8em;
   font-weight: 400;
   display: none;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #9e78cf;
 }
