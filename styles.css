@@ -24,65 +24,158 @@
 }
 
 body {
-  background-color: #0d0714;
+  background-color: white;
   display: flex;
-  justify-content: center;
+  /* justify-content: space-between; */
   font-family: "Inter", sans-serif;
   font-weight: 400;
 }
 
-.container {
-  background-color: #1d1825;
-  width: 32.3rem;
-  height: 36rem;
-  margin-top: 2rem;
-  /* margin-bottom: 8.7rem; */
+.LeftPanel {
+  background-color: #fcfaf8;
+  width: 20vw;
+  padding: 1.3rem;
+}
+
+.profile {
   display: flex;
-  flex-direction: column;
-  /* align-items: center; */
-  padding: 1rem 5rem;
-  border-radius: 0.7rem;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 1rem 0;
+  cursor: pointer;
+}
+
+.fa-user {
+  padding: 0.5rem;
+  background-color: #9e78cf;
+  border-radius: 50%;
+}
+
+#LeftAddTask {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 1.5rem 0;
+  cursor: pointer;
+}
+
+#LeftAddTask .fa-plus {
+  margin-left: 0.1rem;
+  padding: 0.3rem;
+  background-color: #dc4c3e;
+  border-radius: 50%;
+  color: white;
+}
+
+#LeftAddTask span {
+  color: #dc4c3e;
+}
+
+.Search {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 1rem 0;
+  cursor: pointer;
+}
+
+.fa-magnifying-glass {
+  margin-left: 0.3rem;
+  color: #8f8d8d;
+}
+
+.inbox {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 1rem 0;
+  cursor: pointer;
+}
+
+.fa-calendar-days {
+  margin-left: 0.3rem;
+  color: #8f8d8d;
+}
+
+.clearall .fa-trash {
+  margin-left: 0.3rem;
+  color: #8f8d8d;
+}
+
+.AddProjectsWithButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2.5rem;
+  cursor: pointer;
+}
+
+#AddProject {
+  background-color: transparent;
+  border: none;
+}
+
+.Projects {
+  margin: 1rem 0;
+  margin-left: 1rem;
+  list-style: none;
+}
+
+.AddProjects .fa-plus {
+  font-size: 0.9rem;
+  /* display: none; */
+}
+
+.container {
+  width: 55vw;
+  /* background-color: #888; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  padding: 2rem;
+  margin-top: 2rem;
+  margin-left: 10rem;
 }
 
 #AddTasks {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+#AddTasks:hover #Add-Button {
+  background-color: #dc4c3e;
+  color: white;
+}
+#AddTasks:hover #addInput {
+  color: #dc4c3e;
 }
 
 #AddTasks input {
   background-color: transparent;
-  border: 1px solid #9e78cf;
-  width: 21.1rem;
+  border: none;
+  outline: none;
   height: 2.3rem;
-  border-radius: 0.7rem;
-  padding: 0.6rem 0 0.6rem 0.6rem;
-  box-sizing: border-box;
-  color: #9e78cf;
-  /* border-style: none; */
+  width: 100%;
+  font-size: 1rem;
 }
 
 #Add-Button {
-  height: 2.3rem;
-  width: 2.3rem;
-  background-color: #9e78cf;
-  color: white;
-  text-align: center;
-  font-size: 1.7rem;
-  font-weight: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.7rem;
+  background-color: transparent;
   border: none;
+  color: #dc4c3e;
+  text-align: center;
+  /* font-size: 1.7rem; */
+  font-weight: 200;
   cursor: pointer;
+  font-size: 1rem;
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
 }
 
 .container > p {
-  margin-top: 4rem;
-  margin-bottom: 1rem;
-  /* text-align: start; */
-  color: white;
+  margin: 1rem 0;
   font-size: 1rem;
   font-weight: 300;
 }
@@ -90,50 +183,73 @@ body {
 #Tasks {
   overflow-x: hidden;
   overflow-y: auto;
+  height: 30vw;
+}
+
+label {
+  display: flex;
+  align-items: center;
 }
 
 .task {
-  width: 21rem;
-  height: 5rem;
+  /* width: 21rem; */
+  min-height: 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #15101c;
-  border-radius: 0.7rem;
-  padding: 1rem;
-  color: #9e78cf;
-  /* font-size: 1rem; */
-  box-sizing: border-box;
   margin-bottom: 0.5rem;
 }
 
 .Checkbox {
   margin-right: 0.5rem;
-  background-color: transparent;
-  color: #9e78cf;
-  border: none;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  background-color: white;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 2px solid #ddd;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
   cursor: pointer;
 }
 
+.Checkbox:checked {
+  background-color: gray;
+}
+
 .Checkbox.checked {
-  background: #888;
-  color: #fff;
+  background-color: gray;
+  /* color: #fff; */
   text-decoration: line-through;
+}
+
+.tasktext {
+  overflow-wrap: break-word;
+  /* text-overflow: ellipsis; */
+  /* white-space: nowrap; */
+  display: inline-block;
+  width: 30rem;
 }
 
 .delete-btn {
   background-color: transparent;
-  color: #9e78cf;
+  color: #8f8d8d;
   border: none;
   cursor: pointer;
 }
 
 .edit-btn {
   background-color: transparent;
-  color: #9e78cf;
+  color: #8f8d8d;
   border: none;
   cursor: pointer;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
+}
+
+hr {
+  color: #8f8d8d;
 }
 
 #error {
@@ -149,5 +265,5 @@ body {
 
 .completed {
   text-decoration: line-through;
-  color: #9e78cf;
+  /* color: #9e78cf; */
 }

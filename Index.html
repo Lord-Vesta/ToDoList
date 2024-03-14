@@ -18,18 +18,50 @@
   </head>
 
   <body>
+    <div class="LeftPanel">
+      <div class="profile">
+        <i class="fa-solid fa-user"></i>
+        <p>jadhavyash623</p>
+      </div>
+      <div id="LeftAddTask">
+        <i class="fa-solid fa-plus"></i>
+        <span>Add Tasks</span>
+      </div>
+      <div class="Search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Search</span>
+      </div>
+      <div class="inbox">
+        <i class="fa-solid fa-calendar-days"></i>
+        <span>Today</span>
+      </div>
+      <div class="inbox clearall" onclick="Clearall()">
+        <i class="fa-solid fa-trash"></i>
+        <span>Clear All</span>
+      </div>
+      <div class="AddProjects">
+        <div class="AddProjectsWithButton">
+          <span>My Projects</span>
+          <button title="title" id="AddProject">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+        <ul id="ProjectList">
+          <li class="Projects"># &nbsp; &nbsp;<span>Project 1</span></li>
+          <li class="Projects"># &nbsp; &nbsp;<span>Project 1</span></li>
+          <li class="Projects"># &nbsp; &nbsp;<span>Project 1</span></li>
+        </ul>
+      </div>
+    </div>
     <div class="container">
+      <h2>Tasks</h2>
       <div id="AddTasks">
-        <input type="text" placeholder="Add a new task" />
         <button title="title" id="Add-Button">
           <i class="fa-solid fa-plus"></i>
         </button>
+        <input type="text" placeholder="Add task" id="addInput"/>
       </div>
-
-      <p>
-        Completed: <span id="completed-counter">0</span> | Uncompleted:
-        <span id="uncompleted-counter">0</span>
-      </p>
+      <p><span id="completed-counter">0</span> Tasks</p>
       <ul id="Tasks"></ul>
       <p id="error">Input cannot be empty!</p>
     </div>

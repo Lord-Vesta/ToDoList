@@ -2,157 +2,120 @@ const addBtn = document.querySelector("#Add-Button");
 const TaskInput = document.querySelector("#AddTasks input");
 const taskContainer = document.querySelector("#Tasks");
 const error = document.getElementById("error");
-const uncompletedCounter = document.getElementById("uncompleted-counter");
 const completedCounter = document.getElementById("completed-counter");
 
-const saveLocal = () => {
-  localStorage.setItem("data", taskContainer.innerHTML);
-};
+let items = [];
+items = JSON.parse(localStorage.getItem("todo-list")) || [];
 
-const fetchLocal = () => {
-  taskContainer.innerHTML = localStorage.getItem("data");
-};
+function Clearall() {
+  localStorage.clear("todo-list");
+  taskContainer.remove();
+  // listItems();
+  completedTasks = 0;
+  display(completedTasks);
+}
 
-let completeTotalCount = 0;
-let incompleteTotalCount = 0;
-
-const display = () => {
-  const completedTasks = document.querySelectorAll(".completed").length;
-  const uncompletedTasks =
-    document.querySelectorAll("li:not(.completed)").length;
-
-  completedCounter.textContent = completedTasks;
-  uncompletedCounter.textContent = uncompletedTasks;
-};
-
-const addtask = () => {
-  const taskName = TaskInput.value.trim();
-  error.style.display = "none";
-  if (!taskName) {
+function addTodo() {
+  let item = TaskInput.value.trim();
+  console.log(item);
+  let flag = false;
+  items.forEach((Element) => {
+    if (Element.value == item) {
+      flag = true;
+    }
+  });
+  if (item === "") {
     error.style.display = "block";
     setTimeout(() => {
       error.style.display = "none";
     }, 2000);
+  } else if (flag == true) {
+    alert("The task you have entered is same, enter a different task");
   } else {
-    const li = document.createElement("li");
-    li.innerHTML = `
+    items.push({
+      id: items.length + 1,
+      value: item,
+      completed: false,
+    });
+
+    localStorage.setItem("todo-list", JSON.stringify(items));
+    listItems();
+    TaskInput.value = "";
+    completedTasks++;
+    display(completedTasks);
+  }
+}
+
+function listItems() {
+  let list = "";
+  items.forEach(function (item, index) {
+    const checked = item.completed ? "checked" : "";
+    const completedStyle = item.completed
+      ? "text-decoration: line-through;"
+      : "";
+
+    list += `
     <div class='task'>
-    <label >
-        <button class="Checkbox"><i class="fa-solid fa-check"></i></button>
-        <span>${taskName}</span>
-    </label>
+
+      <label class="${checked}">
+        <input class="Checkbox${index} Checkbox" 
+        onclick='CheckboxItem(${index})' type="checkbox" ${checked}>
+        <span class="${index} tasktext" style="${completedStyle}">${item.value}</span>
+      </label>
     <div>
-    <span class = "edit-btn">
-    <i class="fa-solid fa-pen-to-square"></i>
+    <span class = "edit-btn" onclick='EditItem(${index})'>
+      <i class="fa-solid fa-pen-to-square"></i>
     </span>
-    <span class="delete-btn">
-    <i class="fa-solid fa-trash"></i>
+    <span class="delete-btn" onclick='deleteItem(${index})'>
+      <i class="fa-solid fa-trash"></i>
     </span>
     </div>
-    </div>`;
-    taskContainer.insertAdjacentElement("beforeend", li);
-    console.log(li);
-    TaskInput.value = "";
-    incompleteTotalCount++;
-    display(incompleteTotalCount, completeTotalCount);
+    </div>
+    <hr>
+    `;
+  });
+  taskContainer.innerHTML = list;
+  // console.log(list);
+}
 
-    const deleteBtn = li.querySelector(".delete-btn");
-    const editBtn = li.querySelector(".edit-btn");
-    const taskSpan = li.querySelector("span");
-    const Checkbox = li.querySelector(".Checkbox");
+function CheckboxItem(index) {
+  items[index].completed = !items[index].completed;
 
-    deleteBtn.addEventListener("click", () => {
-      if (confirm("Are you sure you want to delete this task?")) {
-        li.remove();
-      }
-    });
-
-    editBtn.addEventListener("click", () => {
-      const update = prompt("Edit task:", taskSpan.textContent);
-      if (update !== null) {
-        taskSpan.textContent = update;
-        li.classList.remove("completed");
-      }
-    });
-
-    // Checkbox.addEventListener("click", function () {
-    //   li.classList.toggle("completed", Checkbox.checked);
-    // });
-    saveLocal();
-    // console.log(taskContainer);
+  if (items[index].completed) {
+    completedTasks--;
+  } else {
+    completedTasks++;
   }
+  display(completedTasks);
+  localStorage.setItem("todo-list", JSON.stringify(items));
+  listItems();
+}
+
+function deleteItem(index) {
+  if (confirm("Are you sure you want to delete this task?"))
+    items.splice(index, 1);
+  localStorage.setItem("todo-list", JSON.stringify(items));
+  listItems();
+  completedTasks--;
+  display(completedTasks);
+}
+
+function EditItem(index) {
+  const update = prompt("Edit task:", items[index].value);
+  if (update !== null) {
+    items[index].value = update;
+  }
+  items[index].completed = false;
+  localStorage.setItem("todo-list", JSON.stringify(items));
+  listItems();
+}
+
+let completedTasks;
+const display = () => {
+  completedTasks = items.filter((items) => !items.completed).length;
+  completedCounter.textContent = completedTasks;
 };
-fetchLocal();
 
-addBtn.addEventListener("click", addtask);
-
-taskContainer.addEventListener("click", (e) => {
-  console.log(e.target);
-  if (e.target.getElementByClassName == "fa-check") {
-    // const li =
-    // li.classList.toggle("completed", Checkbox.checked);
-    console.log(e);
-  }
-  else if(e.target){
-
-  }
-});
-
-// const DeleteBtn = document.querySelectorAll(".Delete-Button");
-
-// DeleteBtn.forEach((button) => {
-//   button.addEventListener("click", () => {
-//     button.parentNode.parentNode.remove();
-//     incompleteTotalCount--;
-//     display(incompleteTotalCount);
-//     saveLocal();
-//   });
-// });
-
-// const Editbtn = document.querySelectorAll(".edit-button");
-
-// console.log(Editbtn);
-
-// Editbtn.forEach((button) => {
-//   //   console.log(button);
-
-//   button.addEventListener("click", (e) => {
-//     let targetElement = e.target;
-
-//     TaskInput.value =
-//       targetElement.parentElement.parentElement.previousElementSibling?.textContent.trim();
-
-//     targetElement.parentNode.parentNode.parentNode.remove();
-
-//     incompleteTotalCount--;
-//     display(incompleteTotalCount);
-//     // saveLocal();
-//   });
-// });
-
-// const saveBtn = document.querySelectorAll(".Checkbox");
-
-// console.log(saveBtn);
-
-// saveBtn.forEach((checkbox) => {
-//   //   console.log(checkbox.parentNode);
-//   checkbox.onclick = () => {
-//     checkbox.parentNode.style.textDecoration = "line-through";
-//     if (checkbox.checked) {
-//       completeTotalCount++;
-//     } else {
-//       completeTotalCount--;
-//     }
-//     display(completeTotalCount);
-//     // saveLocal();
-//   };
-// });
-
-// const deleteQuery = document.getElementsByClassName(".Delete-Button");
-
-// deleteBtn.addEventListener("click", function () {
-//     if (confirm("Are you sure you want to delete this task?")) {
-//       .remove();
-//       updateCounters();
-//     }
-//   });
+addBtn.addEventListener("click", addTodo);
+listItems();
+display();
